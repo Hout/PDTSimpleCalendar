@@ -7,15 +7,9 @@
 //
 
 #import "PDTSimpleCalendarViewCell.h"
+#import "PDTSimpleCalendarViewCell+Private.h"
 
 const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
-
-@interface PDTSimpleCalendarViewCell ()
-
-@property (nonatomic, strong) UILabel *dayLabel;
-@property (nonatomic, strong) NSDate *date;
-
-@end
 
 @implementation PDTSimpleCalendarViewCell
 
@@ -56,7 +50,9 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         // Use number formatter instead of dateformatter because the latter does have
         // some unexpected side effects with Chinese & Japanese day formatting
         NSDateComponents *dateComponents = [calendar components:NSDayCalendarUnit fromDate:date];
-        day = [[NSNumberFormatter new] stringFromNumber:@(dateComponents.day)];
+        NSNumberFormatter *numberFormatter = [NSNumberFormatter new];
+        numberFormatter.locale = calendar.locale;
+        day = [numberFormatter stringFromNumber:@(dateComponents.day)];
     }
     self.dayLabel.text = day;
 }
