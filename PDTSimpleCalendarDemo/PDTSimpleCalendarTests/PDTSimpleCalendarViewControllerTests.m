@@ -9,6 +9,9 @@
 #import <XCTest/XCTest.h>
 
 #import "PDTSimpleCalendarViewController.h"
+#import "PDTSimpleCalendarViewController+Private.h"
+#import "PDTSimpleCalendarViewCell.h"
+#import "PDTSimpleCalendarViewCell+Private.h"
 
 @implementation UIColor (Compare)
 
@@ -154,7 +157,7 @@
     dateComponents.day = 20;
     dateComponents.month = 2;
     dateComponents.year = 2014;
-   simpleCalendarViewController.firstDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
+    simpleCalendarViewController.firstDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
     dateComponents.month = 4;
     simpleCalendarViewController.lastDate = [simpleCalendarViewController.calendar dateFromComponents:dateComponents];
     dateComponents.month = 3;
@@ -166,6 +169,9 @@
     // 20 March should be disabled, selected date should be nil
     XCTAssertTrue(simpleCalendarViewController.selectedDate == nil, @"Selected date should be nil ad date is disabled in delegate");
 }
+
+
+#pragma Mark - PDTSimpleCalendarViewDelegate
 
 - (void)simpleCalendarViewController:(PDTSimpleCalendarViewController*)controller didSelectDate:(NSDate *)date {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -189,6 +195,7 @@
 
     return ![date isEqualToDate:specialDate];
 }
+
 
 
 @end

@@ -51,12 +51,6 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
  */
 @property (nonatomic, strong) NSDate *selectedDate;
 
-/**
- *  Define if dates before 'firstDate' and after 'lastDate' should be enabled or disabled.
- *  Default value is NO.
- */
-@property (nonatomic, assign) BOOL *strictDatesRange;
-
 /** @name Customizing Appearance */
 
 /**

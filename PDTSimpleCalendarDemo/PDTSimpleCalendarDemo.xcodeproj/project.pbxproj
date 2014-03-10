@@ -66,6 +66,7 @@
 		901101B718CDF377008A91F7 /* PDTSimpleCalendarTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PDTSimpleCalendarTests-Prefix.pch"; sourceTree = "<group>"; };
 		901101BD18CDF3CF008A91F7 /* PDTSimpleCalendarViewCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewCellTests.m; sourceTree = "<group>"; };
 		9073819918CE09480072D3C5 /* PDTSimpleCalendarViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewControllerTests.m; sourceTree = "<group>"; };
+		9073819B18CE16F70072D3C5 /* PDTSimpleCalendarViewController+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PDTSimpleCalendarViewController+Private.h"; path = "../PDTSimpleCalendar/PDTSimpleCalendarViewController+Private.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +151,7 @@
 			children = (
 				89D411BF18109DA1001584CC /* PDTSimpleCalendar.h */,
 				89594348180CB47B007DEC5D /* PDTSimpleCalendarViewController.h */,
+				9073819B18CE16F70072D3C5 /* PDTSimpleCalendarViewController+Private.h */,
 				89594349180CB47B007DEC5D /* PDTSimpleCalendarViewController.m */,
 				89594344180CB47B007DEC5D /* PDTSimpleCalendarViewHeader.h */,
 				89594345180CB47B007DEC5D /* PDTSimpleCalendarViewHeader.m */,

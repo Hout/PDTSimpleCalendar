@@ -7,6 +7,7 @@
 //
 
 #import "PDTSimpleCalendarViewController.h"
+#import "PDTSimpleCalendarViewController+Private.h"
 
 #import "PDTSimpleCalendarViewFlowLayout.h"
 #import "PDTSimpleCalendarViewCell.h"
@@ -18,18 +19,6 @@ const CGFloat PDTSimpleCalendarOverlaySize = 14.0f;
 
 static NSString *PDTSimpleCalendarViewCellIdentifier = @"com.producteev.collection.cell.identifier";
 static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collection.header.identifier";
-
-
-@interface PDTSimpleCalendarViewController () <PDTSimpleCalendarViewCellDelegate>
-
-@property (nonatomic, strong) UILabel *overlayView;
-@property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
-
-// First and last date of the months based on the public properties first & lastDate
-@property (nonatomic, readonly) NSDate *firstDateMonth;
-@property (nonatomic, readonly) NSDate *lastDateMonth;
-
-@end
 
 
 @implementation PDTSimpleCalendarViewController
