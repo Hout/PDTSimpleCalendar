@@ -20,7 +20,7 @@ const CGFloat PDTSimpleCalendarHeaderTextSize = 12.0f;
         _titleLabel = [[UILabel alloc] init];
         [_titleLabel setFont:[UIFont systemFontOfSize:PDTSimpleCalendarHeaderTextSize]];
         [_titleLabel setTextColor:self.textColor];
-        [_titleLabel setBackgroundColor:[UIColor clearColor]];
+        [_titleLabel setBackgroundColor:self.backgroundColor];
 
         [self addSubview:_titleLabel];
         [_titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -71,6 +71,19 @@ const CGFloat PDTSimpleCalendarHeaderTextSize = 12.0f;
     }
 
     return [UIColor lightGrayColor];
+}
+
+- (UIColor *)backgroundColor
+{
+    if(_backgroundColor == nil) {
+        _backgroundColor = [[[self class] appearance] backgroundColor];
+    }
+
+    if(_backgroundColor != nil) {
+        return _backgroundColor;
+    }
+
+    return [UIColor whiteColor];
 }
 
 

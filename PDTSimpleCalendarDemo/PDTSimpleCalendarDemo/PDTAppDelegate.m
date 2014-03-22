@@ -80,6 +80,7 @@
 //
 //    [[PDTSimpleCalendarViewHeader appearance] setTextColor:[UIColor redColor]];
 //    [[PDTSimpleCalendarViewHeader appearance] setSeparatorColor:[UIColor orangeColor]];
+//    [[PDTSimpleCalendarViewHeader appearance] setBackgroundColor:[UIColor yellowColor]];
 
     [self.window setRootViewController:tabBarController];
     [self.window makeKeyAndVisible];
