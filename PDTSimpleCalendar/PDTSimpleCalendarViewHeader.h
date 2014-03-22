@@ -14,9 +14,14 @@
 @interface PDTSimpleCalendarViewHeader : UICollectionReusableView
 
 /**
- *  Label that display the month and year
+ *  Label that displays the month and year
  */
 @property (nonatomic, strong) UILabel *titleLabel;
+
+/**
+ *  Array of strings that contain the weekday acronyms
+ */
+@property (nonatomic, strong) NSArray *weekdays;
 
 /** @name Customizing Appearance */
 

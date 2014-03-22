@@ -14,7 +14,7 @@ const CGFloat PDTSimpleCalendarFlowLayoutInsetTop = 5.0f;
 const CGFloat PDTSimpleCalendarFlowLayoutInsetLeft = 0.0f;
 const CGFloat PDTSimpleCalendarFlowLayoutInsetBottom = 5.0f;
 const CGFloat PDTSimpleCalendarFlowLayoutInsetRight = 0.0f;
-const CGFloat PDTSimpleCalendarFlowLayoutHeaderHeight = 30.0f;
+const CGFloat PDTSimpleCalendarFlowLayoutHeaderHeight = 50.0f;
 
 @implementation PDTSimpleCalendarViewFlowLayout
 
@@ -41,8 +41,8 @@ const CGFloat PDTSimpleCalendarFlowLayoutHeaderHeight = 30.0f;
 - (NSArray *) layoutAttributesForElementsInRect:(CGRect)rect {
 
     NSMutableArray *answer = [[super layoutAttributesForElementsInRect:rect] mutableCopy];
-    UICollectionView * const cv = self.collectionView;
-    CGPoint const contentOffset = cv.contentOffset;
+    UICollectionView * const collectionView = self.collectionView;
+    CGPoint const contentOffset = collectionView.contentOffset;
 
     NSMutableIndexSet *missingSections = [NSMutableIndexSet indexSet];
     for (UICollectionViewLayoutAttributes *layoutAttributes in answer) {
@@ -57,13 +57,11 @@ const CGFloat PDTSimpleCalendarFlowLayoutHeaderHeight = 30.0f;
     }
 
     [missingSections enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:idx];
 
         UICollectionViewLayoutAttributes *layoutAttributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
 
         [answer addObject:layoutAttributes];
-
     }];
 
     for (UICollectionViewLayoutAttributes *layoutAttributes in answer) {
@@ -71,7 +69,7 @@ const CGFloat PDTSimpleCalendarFlowLayoutHeaderHeight = 30.0f;
         if ([layoutAttributes.representedElementKind isEqualToString:UICollectionElementKindSectionHeader]) {
 
             NSInteger section = layoutAttributes.indexPath.section;
-            NSInteger numberOfItemsInSection = [cv numberOfItemsInSection:section];
+            NSInteger numberOfItemsInSection = [collectionView numberOfItemsInSection:section];
 
             NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
             NSIndexPath *lastCellIndexPath = [NSIndexPath indexPathForItem:MAX(0, (numberOfItemsInSection - 1)) inSection:section];
@@ -94,19 +92,14 @@ const CGFloat PDTSimpleCalendarFlowLayoutHeaderHeight = 30.0f;
                 .origin = origin,
                 .size = layoutAttributes.frame.size
             };
-            
         }
-        
     }
     
     return answer;
-    
 }
 
 - (BOOL) shouldInvalidateLayoutForBoundsChange:(CGRect)newBound {
-    
     return YES;
-    
 }
 
 @end

@@ -30,8 +30,11 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 @property (nonatomic, readonly) NSDate *firstDateMonth;
 @property (nonatomic, readonly) NSDate *lastDateMonth;
 
-//Number of days per week
+// Number of days per week
 @property (nonatomic, assign) NSUInteger daysPerWeek;
+
+// Weekday acronymns
+@property (nonatomic, copy) NSArray *weekdays;
 
 @end
 
@@ -113,6 +116,27 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
     _calendar = calendar;
     self.headerDateFormatter.calendar = calendar;
     self.daysPerWeek = [_calendar maximumRangeOfUnit:NSWeekdayCalendarUnit].length;
+    self.weekdays = nil;
+}
+
+-(NSArray*)weekdays {
+    if (_weekdays) {
+        return _weekdays;
+    }
+
+    // get week day names array
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.calendar = self.calendar;
+    _weekdays = [dateFormatter shortWeekdaySymbols];
+
+    // adjust array depending on which weekday should be first
+    NSUInteger firstWeekdayIndex = [[NSCalendar currentCalendar] firstWeekday] - 1;
+    if (firstWeekdayIndex > 0) {
+        _weekdays = [[_weekdays subarrayWithRange:NSMakeRange(firstWeekdayIndex, self.daysPerWeek - firstWeekdayIndex)]
+                    arrayByAddingObjectsFromArray:[_weekdays subarrayWithRange:NSMakeRange(0, firstWeekdayIndex)]];
+    }
+
+    return _weekdays;
 }
 
 - (NSDate *)firstDate
@@ -389,6 +413,7 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
         PDTSimpleCalendarViewHeader *headerView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:PDTSimpleCalendarViewHeaderIdentifier forIndexPath:indexPath];
 
         headerView.titleLabel.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:indexPath.section]].uppercaseString;
+        headerView.weekdays = self.weekdays;
 
         headerView.layer.shouldRasterize = YES;
         headerView.layer.rasterizationScale = [UIScreen mainScreen].scale;
