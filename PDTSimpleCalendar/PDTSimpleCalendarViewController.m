@@ -247,7 +247,6 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     // Configure the Header View
     self.headerView = [[PDTSimpleCalendarViewWeekdayHeader alloc] init];
-    [self.headerView setBackgroundColor:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]];
     [self.headerView setAlpha:1.0];
 
     // Set the weekday strings
