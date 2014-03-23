@@ -13,8 +13,8 @@
 // Array of strings with weekday abbreviations
 @property (nonatomic, copy) NSArray *weekdays;
 
-@property (nonatomic, copy) UIColor *weekdayHeaderTextColor UI_APPEARANCE_SELECTOR;;
-@property (nonatomic, copy) UIColor *weekdayHeaderBackgroundColor UI_APPEARANCE_SELECTOR;;
-@property (nonatomic, copy) UIColor *weekdayHeaderSeparatorColor UI_APPEARANCE_SELECTOR;;
+@property (nonatomic, copy) UIColor *textColor UI_APPEARANCE_SELECTOR;;
+@property (nonatomic, copy) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;;
+@property (nonatomic, copy) UIColor *separatorColor UI_APPEARANCE_SELECTOR;;
 
 @end

@@ -18,15 +18,17 @@
 
 @implementation PDTSimpleCalendarViewWeekdayHeader
 
-@synthesize weekdayHeaderBackgroundColor = _weekdayHeaderBackgroundColor;
-@synthesize weekdayHeaderTextColor = _weekdayHeaderTextColor;
-@synthesize weekdayHeaderSeparatorColor = _weekdayHeaderSeparatorColor;
+@synthesize backgroundColor = _backgroundColor;
+@synthesize textColor = _textColor;
+@synthesize separatorColor = _separatorColor;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = self.weekdayHeaderBackgroundColor;
+        _backgroundColor = self.backgroundColor;
+        _textColor = self.textColor;
+        _separatorColor = self.separatorColor;
     }
 
     return self;
@@ -46,7 +48,7 @@
 
     // Add separator view
     UIView *separatorView = [[UIView alloc] init];
-    [separatorView setBackgroundColor:self.weekdayHeaderSeparatorColor];
+    [separatorView setBackgroundColor:self.separatorColor];
     [self addSubview:separatorView];
     [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
 
@@ -59,9 +61,9 @@
         UILabel *weekdayLabel = [[UILabel alloc] init];
         weekdayLabel.font = [UIFont systemFontOfSize:12.0];
         weekdayLabel.text = self.weekdays[index];
-        weekdayLabel.textColor = self.weekdayHeaderTextColor;
+        weekdayLabel.textColor = self.textColor;
         weekdayLabel.textAlignment = NSTextAlignmentCenter;
-        weekdayLabel.backgroundColor = self.weekdayHeaderBackgroundColor;
+        weekdayLabel.backgroundColor = self.backgroundColor;
         [self addSubview:weekdayLabel];
         weekdayLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [viewsDictionary setObject:weekdayLabel forKey:[NSString stringWithFormat:@"weekdayLabel%lu", (unsigned long)index]];
@@ -91,58 +93,58 @@
 }
 
 
--(void)setWeekdayHeaderBackgroundColor:(UIColor *)weekdayHeaderBackgroundColor {
-    _weekdayHeaderBackgroundColor = weekdayHeaderBackgroundColor;
+-(void)setBackgroundColor:(UIColor *)backgroundColor {
+    _backgroundColor = backgroundColor;
 
     // set own background color and that of the labels
-    [super setBackgroundColor:weekdayHeaderBackgroundColor];
+    [super setBackgroundColor:backgroundColor];
     for (UILabel *label in self.weekdayLabels) {
-        label.backgroundColor = weekdayHeaderBackgroundColor;
+        label.backgroundColor = backgroundColor;
     }
 }
 
 
--(void)setWeekdayHeaderTextColor:(UIColor *)weekdayHeaderTextColor {
+-(void)setTextColor:(UIColor *)weekdayHeaderTextColor {
     for (UILabel *label in self.weekdayLabels) {
         label.textColor = weekdayHeaderTextColor;
     }
 }
 
 
-- (UIColor *)weekdayHeaderTextColor
+- (UIColor *)textColor
 {
-    if (!_weekdayHeaderTextColor) {
-        _weekdayHeaderTextColor = [[[self class] appearance] weekdayHeaderTextColor];
+    if (!_textColor) {
+        _textColor = [[[self class] appearance] textColor];
     }
 
-    if (_weekdayHeaderTextColor) {
-        return _weekdayHeaderTextColor;
+    if (_textColor) {
+        return _textColor;
     }
 
     return [UIColor grayColor];
 }
 
-- (UIColor *)weekdayHeaderSeparatorColor
+- (UIColor *)separatorColor
 {
-    if (!_weekdayHeaderSeparatorColor) {
-        _weekdayHeaderSeparatorColor = [[[self class] appearance] weekdayHeaderSeparatorColor];
+    if (!_separatorColor) {
+        _separatorColor = [[[self class] appearance] separatorColor];
     }
 
-    if (_weekdayHeaderSeparatorColor) {
-        return _weekdayHeaderSeparatorColor;
+    if (_separatorColor) {
+        return _separatorColor;
     }
 
     return [UIColor lightGrayColor];
 }
 
-- (UIColor *)weekdayHeaderBackgroundColor
+- (UIColor *)backgroundColor
 {
-    if (!_weekdayHeaderBackgroundColor) {
-        _weekdayHeaderBackgroundColor = [[[self class] appearance] weekdayHeaderBackgroundColor];
+    if (!_backgroundColor) {
+        _backgroundColor = [[[self class] appearance] backgroundColor];
     }
 
-    if (_weekdayHeaderBackgroundColor) {
-        return _weekdayHeaderBackgroundColor;
+    if (_backgroundColor) {
+        return _backgroundColor;
     }
 
     return [UIColor colorWithWhite:0.97 alpha:1.0];
