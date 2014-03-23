@@ -10,6 +10,7 @@
 #import "PDTSimpleCalendarViewController.h"
 #import "PDTSimpleCalendarViewCell.h"
 #import "PDTSimpleCalendarViewHeader.h"
+#import "PDTSimpleCalendarViewWeekdayHeader.h"
 
 @interface PDTAppDelegate () <PDTSimpleCalendarViewDelegate>
 
@@ -81,7 +82,10 @@
 //
 //    [[PDTSimpleCalendarViewHeader appearance] setTextColor:[UIColor redColor]];
 //    [[PDTSimpleCalendarViewHeader appearance] setSeparatorColor:[UIColor orangeColor]];
-//    [[PDTSimpleCalendarViewHeader appearance] setTextFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:8.0]];
+//
+//    [[PDTSimpleCalendarViewWeekdayHeader appearance] setTextColor:[UIColor redColor]];
+//    [[PDTSimpleCalendarViewWeekdayHeader appearance] setBackgroundColor:[UIColor yellowColor]];
+//    [[PDTSimpleCalendarViewWeekdayHeader appearance] setSeparatorColor:[UIColor orangeColor]];
 
     [self.window setRootViewController:tabBarController];
     [self.window makeKeyAndVisible];
