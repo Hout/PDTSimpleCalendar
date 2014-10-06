@@ -21,6 +21,27 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
 
 @implementation PDTSimpleCalendarViewCell
 
+#pragma mark - Class Method
+
++ (NSString *)formatDate:(NSDate *)date withCalendar:(NSCalendar *)calendar
+{
+    static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"d";
+    });
+
+    //Test if the calendar is different than the current dateFormatter calendar property
+    if (![dateFormatter.calendar isEqual:calendar]) {
+        dateFormatter.calendar = calendar;
+    }
+
+    return [dateFormatter stringFromDate:date];
+}
+
+#pragma mark - Instance Methods
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -28,6 +49,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         _date = nil;
         _isToday = NO;
         _dayLabel = [[UILabel alloc] init];
+        [self.dayLabel setFont:[self textDefaultFont]];
         [self.dayLabel setTextAlignment:NSTextAlignmentCenter];
         [self.contentView addSubview:self.dayLabel];
 
@@ -53,8 +75,7 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     NSString* day = @"";
     if (date && calendar) {
         _date = date;
-        NSDateComponents *dateComponents = [calendar components:NSDayCalendarUnit|NSMonthCalendarUnit fromDate:_date];
-        day = [NSString stringWithFormat:@"%@", @(dateComponents.day)];
+         day = [PDTSimpleCalendarViewCell formatDate:date withCalendar:calendar];
     }
     self.dayLabel.text = day;
 }
@@ -221,6 +242,22 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
     }
 
     return [UIColor lightGrayColor];
+}
+
+#pragma mark - Text Label Customizations Font
+
+- (UIFont *)textDefaultFont
+{
+    if(_textDefaultFont == nil) {
+        _textDefaultFont = [[[self class] appearance] textDefaultFont];
+    }
+
+    if (_textDefaultFont != nil) {
+        return _textDefaultFont;
+    }
+
+    // default system font
+    return [UIFont systemFontOfSize:17.0];
 }
 
 @end

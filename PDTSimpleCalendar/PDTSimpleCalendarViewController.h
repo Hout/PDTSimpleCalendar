@@ -11,11 +11,6 @@
 @protocol PDTSimpleCalendarViewDelegate;
 
 /**
- *  Define the number of days in a week. Usually 7.
- */
-extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
-
-/**
  *  `PDTSimpleCalendarViewController` is a `UICollectionViewController` subclass that displays a scrollable calendar view inspired by iOS7 Apple Cal App.
  */
 @interface PDTSimpleCalendarViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
@@ -30,14 +25,14 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 @property (nonatomic, strong) NSCalendar *calendar;
 
 /**
- *  First date displayed by the calendar. If not set, the default value is the first day of the current month.
- *  You can pass every `NSDate`, the firstDate will be automatically set to the first day of its month.
+ *  First date enabled in the calendar. If not set, the default value is the first day of the current month (based on `[NSDate date]`).
+ *  You can pass every `NSDate`, if the firstDate is not the first day of its month, the previous days will be automatically disabled.
  */
 @property (nonatomic, strong) NSDate *firstDate;
 
 /**
- *  Last date displayed by the calendar. If not set, the default value is `firstDate` + one year using `calendar` for calculation
- *  You can pass every `NSDate`, the lastDate will be automatically set to last first day of its month.
+ *  Last date enabled in the calendar. If not set, the default value is the first day of the month of `firstDate` + one year using `calendar` for calculation
+ *  You can pass every `NSDate`, if the lastDate is not the last day of its month, the following days will be automatically disabled.
  */
 @property (nonatomic, strong) NSDate *lastDate;
 
@@ -78,7 +73,14 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
  *  @param newSelectedDate the date that will be selected
  *  @param animated        if you want to animate the scrolling
  */
-- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated;
+- (void)setSelectedDate:(NSDate *)newSelectedDate animated:(BOOL)animated __attribute__((deprecated("Use setSelectedDate: instead. Also setSelectedDate doesn't automatically scroll to the selected date. You need to explicitly call scrollToDate:animated: (or scrollToSelectedDate:)")));
+
+/**
+ *  Scroll to the current selected date in the calendar.
+ *
+ *  @param animated if you want to animate the scrolling
+ */
+- (void)scrollToSelectedDate:(BOOL)animated;
 
 /**
  *  Scroll to a certain date in the calendar.
@@ -99,33 +101,40 @@ extern const NSUInteger PDTSimpleCalendarDaysPerWeek;
 
 @optional
 
-/** Tells the delegate that a date was selected by the user.
-
- @param date the date being selected (Midnight GMT).
+/**
+ *  Tells the delegate that a date was selected by the user.
+ *
+ *  @param controller the calendarView Controller
+ *  @param date       the date being selected (Midnight GMT).
  */
-- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController*)controller didSelectDate:(NSDate *)date;
+- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller didSelectDate:(NSDate *)date;
+
+/** @name Color Customization */
 
 /**
  *  Asks the delegate if the Calendar should use custom colors for the specified date.
  *
- *  @param date the date (Midnight GMT)
+ *  @param controller the calendarView Controller
+ *  @param date       the date (Midnight GMT)
  *
  *  @return YES if the calendar must ask the delegate for text and circle color, NO if it should use default values.
  */
-- (BOOL)simpleCalendarShouldUseCustomColorsForDate:(NSDate *)date;
+- (BOOL)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller shouldUseCustomColorsForDate:(NSDate *)date;
 
 /**
- * Asks the delegate for the circle color for a custom added date
+ *  Asks the delegate for the circle color for a custom added date
  *
- * @param date the date (Midnight GMT).
+ *  @param controller the calendarView Controller
+ *  @param date       the date (Midnight GMT)
  */
-- (UIColor *)simpleCalendarCircleColorForDate:(NSDate *)date;
+- (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller circleColorForDate:(NSDate *)date;
 
 /**
- * Asks the delegate for the text color for a custom added date
+ *  Asks the delegate for the text color for a custom added date
  *
- * @param date the date (Midnight GMT).
+ *  @param controller the calendarView Controller
+ *  @param date       the date (Midnight GMT)
  */
-- (UIColor *)simpleCalendarTextColorForDate:(NSDate *)date;
+- (UIColor *)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller textColorForDate:(NSDate *)date;
 
 @end;
