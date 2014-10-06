@@ -11,15 +11,20 @@
 #import "PDTSimpleCalendarViewFlowLayout.h"
 #import "PDTSimpleCalendarViewCell.h"
 #import "PDTSimpleCalendarViewHeader.h"
+#import "PDTSimpleCalendarViewWeekdayHeader.h"
 
 
 const CGFloat PDTSimpleCalendarOverlaySize = 14.0f;
+const CGFloat PDTSimpleCalendarWeekdayHeaderHeight = 20.0;
 
 static NSString *PDTSimpleCalendarViewCellIdentifier = @"com.producteev.collection.cell.identifier";
 static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collection.header.identifier";
 
 
-@interface PDTSimpleCalendarViewController () <PDTSimpleCalendarViewCellDelegate>
+@interface PDTSimpleCalendarViewController () <PDTSimpleCalendarViewCellDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate>
+
+@property (nonatomic, strong) PDTSimpleCalendarViewWeekdayHeader *headerView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic, strong) UILabel *overlayView;
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
@@ -288,11 +293,37 @@ static NSString *PDTSimpleCalendarViewHeaderIdentifier = @"com.producteev.collec
 
     [self.view addSubview:self.overlayView];
     [self.overlayView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView};
-    NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight)};
 
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:NSLayoutFormatAlignAllTop metrics:nil views:viewsDictionary]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView(==overlayViewHeight)]" options:NSLayoutFormatAlignAllTop metrics:metricsDictionary views:viewsDictionary]];
+    // Configure the Header View
+    self.headerView = [[PDTSimpleCalendarViewWeekdayHeader alloc] init];
+
+    // Set the weekday strings
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.calendar = self.calendar;
+    NSArray *weekdays = [dateFormatter veryShortWeekdaySymbols];
+
+    // adjust array depending on which weekday should be first
+    NSUInteger firstWeekdayIndex = [[NSCalendar currentCalendar] firstWeekday] - 1;
+    if (firstWeekdayIndex > 0) {
+        weekdays = [[weekdays subarrayWithRange:NSMakeRange(firstWeekdayIndex, self.daysPerWeek - firstWeekdayIndex)]
+                     arrayByAddingObjectsFromArray:[weekdays subarrayWithRange:NSMakeRange(0, firstWeekdayIndex)]];
+    }
+    self.headerView.weekdays = weekdays;
+
+    [self.view addSubview:self.headerView];
+    [self.headerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+    NSDictionary *viewsDictionary = @{@"overlayView": self.overlayView,
+                                      @"headerView": self.headerView,
+                                      @"collectionView": self.collectionView};
+    NSDictionary *metricsDictionary = @{@"overlayViewHeight": @(PDTSimpleCalendarFlowLayoutHeaderHeight),
+                                        @"headerViewHeight": @(PDTSimpleCalendarWeekdayHeaderHeight)};
+
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[overlayView]|" options:0 metrics:nil views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[headerView]|" options:0 metrics:nil views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[collectionView]|" options:0 metrics:nil views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[headerView(==headerViewHeight)][collectionView]|" options:0 metrics:metricsDictionary views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[headerView][overlayView(==overlayViewHeight)]" options:0 metrics:metricsDictionary views:viewsDictionary]];
 }
 
 #pragma mark - Rotation Handling
