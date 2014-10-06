@@ -13,7 +13,7 @@
 /**
  *  `PDTSimpleCalendarViewController` is a `UICollectionViewController` subclass that displays a scrollable calendar view inspired by iOS7 Apple Cal App.
  */
-@interface PDTSimpleCalendarViewController : UIViewController
+@interface PDTSimpleCalendarViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 
 /** @name Calendar Setup */
 
